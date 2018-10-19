@@ -1,0 +1,36 @@
+= COJSON Library for Arduino =
+
+Zero-effort JSON reading/writing on Arduino platforms.
+
+The COJSON library facilitates automated code generation from a JSON sample via
+web interface https://hutorny.in.ua/codegen/cojson.html
+
+The library is a cross-platform, zero-allocation, zero-dependency, 
+small footprint implementation of a pull-type JSON parser for JSON model 
+defined in an application with C++ language features.
+
+This library requires C++11 enabled compiler (GCC 4.9 or higher). 
+Please check platform.txt of your board for presence of -std=gnu++11 
+among compilation flags.
+
+For more information about this library please visit
+http://hutorny.in.ua/projects/cojson
+
+== License ==
+
+Copyright (C) 2015-2018 Eugene Hutorny <eugene@hutorny.in.ua>
+
+GPL v2.0
+
+The COJSON Library is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License v2
+as published by the Free Software Foundation;
+
+The COJSON Library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with the µcuREST Library; if not, see
+<http://www.gnu.org/licenses/gpl-2.0.html>.

@@ -1,0 +1,61 @@
+#######################################
+#	Syntax	Coloring	Map
+#######################################
+
+#######################################
+#	Datatypes	(KEYWORD1)
+#######################################
+
+accessor	KEYWORD1
+cojson	KEYWORD1
+configuration	KEYWORD1
+Configuration	KEYWORD1
+lexer	KEYWORD1
+
+#######################################
+#	Methods	and	Functions	(KEYWORD2)
+#######################################
+M	KEYWORD2
+MemberAccessor	KEYWORD2
+MemberConstStringFunction	KEYWORD2
+MemberPointer	KEYWORD2
+MemberPointerFunction	KEYWORD2
+MemberReferenceFunction	KEYWORD2
+MemberStringFunction	KEYWORD2
+MemberValue	KEYWORD2
+O	KEYWORD2
+ObjectClass	KEYWORD2
+ObjectClass	KEYWORD2
+ObjectJson	KEYWORD2
+P	KEYWORD2
+PropertyArrayOfObjects	KEYWORD2
+PropertyConstString	KEYWORD2
+PropertyCstring	KEYWORD2
+PropertyExternValue	KEYWORD2
+PropertyList	KEYWORD2
+PropertyObject	KEYWORD2
+PropertyScalarAccessor	KEYWORD2
+PropertyScalarMember	KEYWORD2
+PropertyString	KEYWORD2
+PropertyStrings	KEYWORD2
+PropertyVector	KEYWORD2
+V	KEYWORD2
+ValueAccessor	KEYWORD2
+ValueArray	KEYWORD2
+ValueArrayFunction	KEYWORD2
+ValueConstStringFunction	KEYWORD2
+ValueGetterSetter	KEYWORD2
+ValueObject	KEYWORD2
+ValueObjectAccessor	KEYWORD2
+ValuePointer	KEYWORD2
+ValuePointerFunction	KEYWORD2
+ValueReferenceFunction	KEYWORD2
+ValueString	KEYWORD2
+ValueStringFunction	KEYWORD2
+ValueStrings	KEYWORD2
+ValueVector	KEYWORD2
+json	KEYWORD2
+
+######################################
+#	Constants	(LITERAL1)
+#######################################

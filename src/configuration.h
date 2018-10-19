@@ -1,69 +1,82 @@
 #pragma once
-#pragma message "Default configuration.h used, make your own instead"
 
-/* Default application configuration may use blank configuration.h file
- * Just place it in include path earlier than src/configuration.h
- *
- * To read more about CCS concepts please visit
- * http://hutorny.in.ua/research/cascaded-configuration-sets-for-c1y
- *
- * To make a custom configuration, you may copy this file, uncomment
- * its body and adjust it as necessary,
- *
- * /
+/* I.   Place a copy of this file on the include path
+ * II.  REMOVE options to be left at default state
+ * III. Adjust options as needed
+ * IV.  Change selector from Default to User or any other used here
+ * V.   Multiple configurations can be kept in one file and switched by
+ * 		the selector
+ */
 
-#include <cojson.ccs>
+#include "cojson.ccs"
 
 namespace configuration {
-	namespace target {
-		class MyTarget; // define one or more targets
-		class MyOtherTarget;
-	}
+namespace build { struct User;	}
 
-	template<typename build>
-	struct Configuration<cojson::config, target::MyTarget, build>
-	  : Configuration<cojson::config, target::All, build> {
+struct Current : Is<target::All,build::Default> {};//User configuration is NOT active
+//struct Current : Is<target::AVR,build::User> {}; //User configuration is ACTIVE
 
-		/// controls behavior on integral overflow
-		//  static constexpr overflow_is overflow = overflow_is::error;
+template<> struct Selector<cojson::config> : Current {};
+template<> struct Selector<cojson::details::lexer> : Current {};
 
-		/// controls implementation of iostate::error
-		//  static constexpr iostate_is iostate = iostate_is::_virtual;
+//
+// Configuration symbols in cojson configuration
+// Symbol 		| Values		| When specified...
+// -------------+---------------+-----------------------------------------------
+// overflow 	| saturate		| numbers are saturated on overflow
+// 				| error			| overflow causes an error
+// 				| ignore		| overflow condition silently ignored
+// -------------+---------------+-----------------------------------------------
+// mismatch		| skip			| reader makes best efforts to skip such values
+// 				| error			| any mismatch in size or data type
+// 				|			  	| is treated as an error
+// -------------+---------------+-----------------------------------------------
+// null			| skip			| skip nulls by default
+// 				| error			| default handling for null is an error
+// -------------+---------------+-----------------------------------------------
+// iostate		| _notvirtual	| stream's error method are not virtual
+// 				| _virtual		| stream's error method are virtual,
+// 				|				| needed if a class implements both
+// 				|				| cojson::istream and cojson::ostream
+// -------------+---------------+-----------------------------------------------
+// temporary	| _static		| temporary buffer is implemented static
+// 				| _automatic	| temporary buffer is implemented automatic
+// -------------+---------------+-----------------------------------------------
+// temporary_size				| overrides temporary buffer size
+// -------------+---------------+-----------------------------------------------
+//
 
-		/// controls default null handling.
-		//  static constexpr null_is null = null_is::error;
+template<>
+struct Configuration<cojson::config, target::All, build::User>
+	:  Configuration<cojson::config, target::All, build::Default> {
+	// use of wchar_t
+	typedef wchar_t char_t;
 
-		/// controls write implementation for double values
-		//  static constexpr write_double_impl_is write_double_impl = write_double_impl_is::with_sprintf;
+	// controls behavior on integral overflow
+	static constexpr auto overflow 	= overflow_is::error;
 
-		/// for internal double write controls integer type used for representing mantissa and fraction
-		//  using write_double_integral_type = uint64_t;
+	// controls implementation of iostate::error
+	static constexpr auto iostate   = iostate_is::_virtual;
 
-		/// for internal double write controls precision (significant digits)
-		//  static constexpr unsigned write_double_precision = 12;
-	};
+	// controls default null handling
+	static constexpr auto null = null_is::error;
 
-	template<typename build>
-	struct Configuration<cojson::details::lexer, target::Codegen, build>
-	  : Configuration<cojson::details::lexer, target::All, build> {
-		/// controls behavior on read encountered element mismatching the target data type
-		//  static constexpr auto mismatch = cojson::default_config::mismatch_is::skipped;
+	// controls size of temporary buffer
+	static constexpr unsigned sprintf_buffer_size = 32;
+};
 
-		/// controls size of temporary buffer
-		//  static constexpr unsigned temporary_size = 32;
+template<>
+struct Configuration<cojson::details::lexer, target::All, build::User>
+  :    Configuration<cojson::details::lexer, target::All, build::Default> {
 
-		/// controls implementation of temp buffer, used for reading names
-		//  static constexpr auto temporary_static = false;
+	// controls behavior on read element mismatching target data type
+	static constexpr auto mismatch = cojson::default_config::mismatch_is::error;
 
-		/// sets maximal length of a JSON key length
-		//  static constexpr unsigned max_key_length = 128;
-	  };
+	// controls size of lexer's temporary buffer
+	static constexpr unsigned temporary_size = 32;
 
-	/// If necessary, add Configuration specialization for other targets
-
-	/// Specify what is the currently selected target
-	template<> struct Selector<cojson::details::lexer> : Is<target::MyTarget, build::Default> {};
-	template<> struct Selector<cojson::config> : Is<target::MyTarget, build::Default> {};
+	// sets maximal length of a JSON key length
+	static constexpr unsigned max_key_length = 128;
+};
 }
-
-//*/
+// */
